@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db_emf:
+    image: mysql:8.3.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: emf-calendar
+    ports:
+      - "3307:3306"  
+    volumes:
+      - db_emf_data:/var/lib/mysql
+      - ./db_emf:/docker-entrypoint-initdb.d
+
+  phpmyadmin_emf:
+    image: phpmyadmin:5.2.1
+    restart: always
+    environment:
+      PMA_HOST: db_emf
+      MYSQL_ROOT_PASSWORD: root 
+    ports:
+      - "8081:80"  
+    depends_on:
+      - db_emf
+
+volumes:
+  db_emf_data:
+

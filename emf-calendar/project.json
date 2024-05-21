@@ -1,0 +1,79 @@
+{
+  "name": "emf-calendar",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "./emf-calendar/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/emf-calendar",
+        "index": "emf-calendar/src/index.html",
+        "baseHref": "/",
+        "main": "emf-calendar/src/main.tsx",
+        "tsConfig": "emf-calendar/tsconfig.app.json",
+        "assets": ["emf-calendar/src/favicon.ico", "emf-calendar/src/assets"],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "emf-calendar/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "emf-calendar/src/environments/environment.ts",
+              "with": "emf-calendar/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "emf-calendar:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "emf-calendar:build:development"
+        },
+        "production": {
+          "buildTarget": "emf-calendar:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "plugin": {
+      "executor": "@betrue/react-elementor:build",
+      "options": {
+        "plugin": "emf-calendar",
+        "replaceFilePattern": ".esm.js"
+      }
+    },
+    "pkg": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["nx build emf-calendar", "nx plugin emf-calendar"],
+        "parallel": false
+      }
+    }
+  }
+}
