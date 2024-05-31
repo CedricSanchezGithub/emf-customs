@@ -16,16 +16,19 @@ interface EmfFullCalendarEventViewProps extends StyledBaseProps  {
 
 }
 
+
 export const EmfFullCalendarEventView = styled (
+
 
   ({eventContent, className, displayMode} : EmfFullCalendarEventViewProps) => {
 
     const statusColor : "green" | "red" = (eventContent.event.extendedProps.status === 'None' || eventContent.event.extendedProps.status === '') ? 'green' : 'red';
     const chipsLabel = (eventContent.event.extendedProps.status === 'None' || eventContent.event.extendedProps.status === '') ? 'Maintenu' : eventContent.event.extendedProps.status;
     const statusBackground :"success" | "error"  = (eventContent.event.extendedProps.status === 'None' || eventContent.event.extendedProps.status === '') ? 'success' : "error";
-    const styledTitle = (eventContent.event.start.getDay() === eventContent.event.end.getDay()) ? "" : '#eeeeee'
+    const startDay = eventContent.event.start ? eventContent.event.start.getDay() : null;
+    const endDay = eventContent.event.end ? eventContent.event.end.getDay() : null;
+    const styledTitle = (startDay !== null && endDay !== null && startDay === endDay && eventContent.event.title) ? "" : '#eeeeee';
     const linkRef = useRef();
-
 
 
     return (
